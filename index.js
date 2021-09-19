@@ -21,4 +21,4 @@ app.use(cors('*'));
 app.use(express.json());
 
 // ? setup route handler
-app.post('/apply-cl', applyCL);
+app.post('/apply-cl', () => {});
