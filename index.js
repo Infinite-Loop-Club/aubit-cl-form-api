@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -8,11 +9,8 @@ const logger = require('./logger');
 const app = express();
 
 connection.connect(err => {
-	if (err) 
-		logger.error('DB connection error', err.stack);
-	 else 
-		logger.info('Connected to database');
-	
+	if (err) logger.error(err);
+	else logger.info('Connected to database');
 });
 
 // ? setup middlewares
