@@ -1,3 +1,7 @@
+-- Setup database only if not created
+CREATE DATABASE IF NOT EXISTS cl_database;
+
+-- Select the database if more than one 
 USE cl_database;
 
 -- Staffs Table creation 
@@ -60,7 +64,7 @@ CREATE TABLE cl_informations (
 
   PRIMARY KEY (id),
   FOREIGN KEY (staff_id) REFERENCES staffs(id),
-  FOREIGN KEY (staff_address_id) REFERENCES staff_addresses(id),
+  FOREIGN KEY (staff_address_id) REFERENCES staff_addresses(id)
 ) 
 ENGINE = InnoDB;
 
@@ -75,8 +79,7 @@ CREATE TABLE arrangments (
   created_at timestamp default now(),
 
   PRIMARY KEY (id),
-  FOREIGN KEY (cl_id) REFERENCES cl_informations(id),
-
+  FOREIGN KEY (cl_id) REFERENCES cl_informations(id)
 ) 
 ENGINE = InnoDB;
 
