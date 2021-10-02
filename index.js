@@ -1,17 +1,12 @@
 require('dotenv').config();
+require('./connection');
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const connection = require('./connection');
-const logger = require('./logger');
 
 // ? initialize app
 const app = express();
-
-connection.connect(err => {
-	if (err) logger.error(err);
-	else logger.info('Connected to database');
-});
 
 // ? setup middlewares
 app.use(helmet());
