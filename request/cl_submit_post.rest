@@ -1,0 +1,14 @@
+POST http://localhost:4000/api/apply-cl 
+Content-Type: application/json
+
+{
+    "arrangements": [
+        {
+            "date": "", 
+            "hour": "",
+            "class": "",
+            "subject": "",
+            "year": ""
+        }
+    ]
+}

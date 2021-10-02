@@ -75,6 +75,7 @@ CREATE TABLE arrangments (
   date_hour datetime, 
   class varchar(256),
   subject varchar(256),
+  year int,
   
   created_at timestamp default now(),
 
