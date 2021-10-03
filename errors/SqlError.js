@@ -1,14 +1,11 @@
-// SQL error function
-class SqlError extends Error {
-  constructor(message) {
-    super(message);
+const { ExtendableError } = require('./ExtendableError');
 
-    this.name = 'Sql Error';
-    this.status = 500;
-    this.result = false;
-  }
+// 500 Internal Server Error
+class SqlError extends ExtendableError {
+	constructor(m) {
+		if (arguments.length === 0) super('sql error');
+		else super(m);
+	}
 }
 
-exports.throwSqlError = msg => {
-  throw new SqlError(msg);
-};
+exports.SqlError = SqlError;

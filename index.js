@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 const helmet = require('helmet');
 const logger = require('./logger');
 
@@ -14,6 +15,9 @@ const app = express();
 app.use(helmet());
 app.use(cors('*'));
 app.use(express.json());
+
+// * Set dev logger for better viewing response with optimization
+app.use(morgan('dev'));
 
 // ? setup route handler
 app.use('/api', require('./routers'));

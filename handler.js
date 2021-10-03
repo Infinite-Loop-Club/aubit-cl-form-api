@@ -1,6 +1,13 @@
 const database = require('./connection');
-const logger = require('./logger');
+const errorHandleManager = require('./errors');
+const { BadRequest } = require('./errors/BadRequest');
 
+/**
+ * @readonly /api/apply-cl
+ * @param {Express.Request} req Request object of exresss framework
+ * @param {Express.Response} res Response object of express framework
+ * @returns
+ */
 const handleCreateClApplication = async (req, res) => {
 	try {
 		// ?? Create the connection
@@ -8,11 +15,15 @@ const handleCreateClApplication = async (req, res) => {
 
 		await connection.execute('SELECT 1');
 
+		// throw new BadRequest('test message');
+
 		return res.status(200).json({
 			result: true,
 			message: 'test'
 		});
-	} catch (e) {}
+	} catch (err) {
+		errorHandleManager(err, res);
+	}
 };
 
 module.exports = { handleCreateClApplication };
