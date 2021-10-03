@@ -6,12 +6,10 @@ const logger = require('./logger');
 
 const { DB_NAME, DB_PASSWORD, DB_HOSTNAME, DB_USERNAME, DB_PORT } = process.env;
 
-let connection;
-
-(async () => {
+const getConnection = async () => {
 	try {
 		// ? create the connection to database
-		connection = await mysql.createConnection({
+		return await mysql.createConnection({
 			host: DB_HOSTNAME,
 			user: DB_USERNAME,
 			database: DB_NAME,
@@ -20,11 +18,9 @@ let connection;
 
 			Promise: bluebird // ? Promise Wrapper
 		});
-
-		logger.info('Db Connected');
 	} catch (e) {
 		logger.error(e);
 	}
-})();
+};
 
-module.exports = connection;
+module.exports = getConnection;
