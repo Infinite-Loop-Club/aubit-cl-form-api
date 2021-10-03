@@ -10,5 +10,27 @@ Content-Type: application/json
             "subject": "",
             "year": ""
         }
-    ]
-}
+    ],
+    "basic": {
+        "name": "",
+        "designation": "",
+        "nature_of_leave": "",
+        "availed_days": "",
+        "period_from": "",
+        "period_to": "",
+        "no_of_days": "",
+        "phone_number": "",
+        "country_code": "",
+        "department_name": "",
+        "semester_type": "",
+        "purpose_description": ""
+    },
+    "address": {
+        "line1": "",
+        "line2": "",
+        "city": "",
+        "state": "",
+        "postal_code": "",
+        "country": ""
+    }
+} 
