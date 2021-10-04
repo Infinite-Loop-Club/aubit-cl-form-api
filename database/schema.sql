@@ -47,7 +47,7 @@ CREATE TABLE cl_informations (
   staff_address_id int,
   uis varchar(64),
   name varchar(64),
-  designation int,
+  designation varchar(128),
   nature_of_leave tinyint default 0,
   availed_days tinyint default 1,
   period_from timestamp default null,

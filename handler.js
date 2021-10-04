@@ -27,8 +27,6 @@ const handleCreateClApplication = async (req, res) => {
 			}
 		});
 
-		logger.info('insertQ ', insertQ.rows);
-
 		return res.status(200).json({
 			result: true,
 			message: 'test'
