@@ -5,8 +5,7 @@ Content-Type: application/json
 {
     "arrangements": [
         {
-            "date": "", 
-            "hour": "",
+            "date_hour": "", 
             "class": "",
             "subject": "",
             "year": ""
