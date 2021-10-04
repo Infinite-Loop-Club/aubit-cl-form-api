@@ -15,7 +15,7 @@ const handleCreateClApplication = async (req, res) => {
 		// ?? Create the connection
 		const connection = await database();
 
-		const insertQ = await insertOne(connection, {
+		await insertOne(connection, {
 			table_name: 'staffs',
 			data: {
 				email: 'test2@gmail.com',
