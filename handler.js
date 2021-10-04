@@ -1,7 +1,8 @@
 const database = require('./connection');
-const { insertOne } = require('./db_worker');
 const errorHandleManager = require('./errors');
 const logger = require('./logger');
+
+const { insertOne } = require('./db_worker');
 
 /**
  * @readonly /api/apply-cl

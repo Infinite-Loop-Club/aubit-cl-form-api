@@ -13,9 +13,9 @@ const logger = require('./logger');
 exports.insertOne = async (connection, query) => {
 	try {
 		// ? Query preparation
-		const sql = mysql.format(`INSERT INTO ?? SET ?`, [query.table_name, query.data]);
+		const sql = await mysql.format(`INSERT INTO ?? SET ?`, [query.table_name, query.data]);
 
-		// ? Qeury execution
+		// ? Query execution
 		const [rows, fields] = await connection.execute(sql);
 
 		return {
@@ -23,7 +23,7 @@ exports.insertOne = async (connection, query) => {
 			fields
 		};
 	} catch (err) {
-		logger.error('Inert query => ', err);
+		logger.error('insertOne query => ', err);
 		throw new SqlError(MESSAGES.SQL_ERROR);
 	}
 };

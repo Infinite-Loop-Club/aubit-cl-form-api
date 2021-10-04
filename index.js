@@ -24,6 +24,14 @@ app.use(express.json());
 // * Set dev logger for better viewing response with optimization
 app.use(morgan('dev'));
 
+// * Setup express response and body parser configurations
+app.use(express.json());
+app.use(
+	express.urlencoded({
+		extended: true
+	})
+);
+
 // ? setup route handler
 app.use('/api', require('./routers'));
 
