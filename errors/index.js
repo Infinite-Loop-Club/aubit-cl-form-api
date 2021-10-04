@@ -1,4 +1,5 @@
 const { StatusCodes, getReasonPhrase } = require('http-status-codes');
+const { MESSAGES } = require('../constant');
 const { BadRequest } = require('./BadRequest');
 const { Forbidden } = require('./Forbidden');
 const { NotFound } = require('./NotFound');
@@ -12,8 +13,7 @@ const { UnprocessableEntity } = require('./UnproccessableEntity');
  */
 const errorHandleManager = (err, res) => {
 	let error = getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR);
-	let message =
-		"Sorry for the inconvenience. If it's still persist feel free to contact our web team admistrator.";
+	let message = MESSAGES.INTERNAL_SERVER_ERROR;
 	let statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
 
 	// ! 400

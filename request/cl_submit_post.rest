@@ -5,32 +5,32 @@ Content-Type: application/json
 {
     "arrangements": [
         {
-            "date_hour": "", 
-            "class": "",
-            "subject": "",
-            "year": ""
+            "date_hour": "01-12-2000 12:00 PM", 
+            "class": "CSE A",
+            "subject": "AI",
+            "year": "2"
         }
     ],
     "basic": {
-        "name": "",
-        "designation": "",
-        "nature_of_leave": "",
-        "availed_days": "",
-        "period_from": "",
-        "period_to": "",
-        "no_of_days": "",
-        "phone_number": "",
-        "country_code": "",
-        "department_name": "",
-        "semester_type": "",
-        "purpose_description": ""
+        "name": "Jack",
+        "designation": "Tutor",
+        "nature_of_leave": 1,
+        "availed_days": "3",
+        "period_from": "01-12-2000",
+        "period_to": "05-12-2000",
+        "no_of_days": 4,
+        "phone_number": "9524369244",
+        "country_code": "91",
+        "department_name": "cse",
+        "semester_type": "odd",
+        "purpose_description": "sample description"
     },
     "address": {
-        "line1": "",
-        "line2": "",
-        "city": "",
-        "state": "",
-        "postal_code": "",
-        "country": ""
+        "line1": "1/2, street, nehury",
+        "line2": "Neary hospital",
+        "city": "Trichirappalli",
+        "state": "Tamilnadu",
+        "postal_code": "621216",
+        "country": "India"
     }
 } 

@@ -4,6 +4,8 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const path = require('path');
+
 const logger = require('./logger');
 
 const { SERVER_PORT } = process.env;

@@ -4,6 +4,7 @@ const mysql = require('mysql2/promise');
 const bluebird = require('bluebird');
 const logger = require('./logger');
 const { SqlError } = require('./errors/SqlError');
+const { MESSAGES } = require('./constant');
 
 const { DB_NAME, DB_PASSWORD, DB_HOSTNAME, DB_USERNAME, DB_PORT } = process.env;
 
@@ -14,7 +15,7 @@ const { DB_NAME, DB_PASSWORD, DB_HOSTNAME, DB_USERNAME, DB_PORT } = process.env;
 const getConnection = async () => {
 	try {
 		// ? create the connection to database
-		return await mysql.createConnection({
+		const connection = await mysql.createConnection({
 			host: DB_HOSTNAME,
 			user: DB_USERNAME,
 			database: DB_NAME,
@@ -23,9 +24,13 @@ const getConnection = async () => {
 
 			Promise: bluebird // ? Promise Wrapper
 		});
+
+		connection.config.namedPlaceholders = true;
+
+		return connection;
 	} catch (e) {
 		logger.error(e);
-		throw new SqlError('Database connection not established!');
+		throw new SqlError(MESSAGES.SQL_ERROR);
 	}
 };
 

@@ -1,5 +1,7 @@
 const database = require('./connection');
+const { insertOne } = require('./db_worker');
 const errorHandleManager = require('./errors');
+const logger = require('./logger');
 
 /**
  * @readonly /api/apply-cl
@@ -12,7 +14,19 @@ const handleCreateClApplication = async (req, res) => {
 		// ?? Create the connection
 		const connection = await database();
 
-		await connection.execute('SELECT 1');
+		const insertQ = await insertOne(connection, {
+			table_name: 'staffs',
+			data: {
+				email: 'test2@gmail.com',
+				password: 'slfjfsdk',
+				name: 'MD2',
+				department: 'Cse',
+				is_verified: 1,
+				is_active: 1
+			}
+		});
+
+		logger.info('insertQ ', insertQ.rows);
 
 		return res.status(200).json({
 			result: true,
