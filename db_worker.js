@@ -1,8 +1,8 @@
 const mysql = require('mysql2');
+const logger = require('./logger');
 
 const { MESSAGES } = require('./constant');
 const { SqlError } = require('./errors/SqlError');
-const logger = require('./logger');
 
 /**
  *
