@@ -11,6 +11,9 @@ const { SERVER_PORT } = process.env;
 // ? initialize app
 const app = express();
 
+// * Set default root path
+global.ROOT_PATH = path.resolve(__dirname);
+
 // ? setup middlewares
 app.use(helmet());
 app.use(cors('*'));

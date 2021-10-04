@@ -1,14 +1,16 @@
 const moment = require('moment');
 const nodemailer = require('nodemailer');
-const { UnprocessableEntity } = require('./errors/UnproccessableEntity');
 const logger = require('./logger');
+
+const { UnprocessableEntity } = require('./errors/UnproccessableEntity');
+const { getEmailTemplate } = require('./business');
 
 const { AUBIT_FROM_EMAIL, AUBIT_FROM_EMAIL_PASSWORD } = process.env;
 
 /**
  *
- * @param {Object} config Email configuration {to, bcc, cc, subject, text, attachments}
- * @param {Object} templateConfiguration Template information needs to fill up in the email
+ * @param {{to, bcc, cc, subject, text, attachments}} config Email basic configuration
+ * @param {{templateId, data}} templateConfiguration Template information needs to fill up in the email
  */
 exports.sendEmail = async (config, templateConfiguration) => {
 	const emailConfiguration = {
