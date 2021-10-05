@@ -2,7 +2,6 @@ const moment = require('moment');
 const nodemailer = require('nodemailer');
 const logger = require('./logger');
 
-// const { UnprocessableEntity } = require('./errors/UnproccessableEntity');
 const { getEmailTemplate } = require('./business');
 
 const { AUBIT_FROM_EMAIL, AUBIT_FROM_EMAIL_PASSWORD } = process.env;
@@ -21,7 +20,7 @@ exports.sendEmail = async (config, templateConfiguration) => {
 
 	/**
 	 * Note: This transport creation from email should be enabled third party devices login
-	 * and disable low secure app block on gmail settings.
+	 * and enable Less secure app block on gmail settings.
 	 */
 	const transporter = nodemailer.createTransport({
 		service: 'Gmail',
@@ -32,12 +31,7 @@ exports.sendEmail = async (config, templateConfiguration) => {
 	});
 
 	transporter.sendMail(emailConfiguration, function (err) {
-		if (err) {
-			logger.error(err);
-			// throw new UnprocessableEntity(
-			// 	'Sending email had an issue. Please contact the administrator.'
-			// );
-		}
+		if (err) logger.error(err);
 
 		logger.info(`Email sent at ${moment().format('LLLL')}.`);
 	});
