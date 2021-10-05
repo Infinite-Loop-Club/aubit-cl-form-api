@@ -1,5 +1,8 @@
 // * Import needed stuffs
 const jwt = require('jsonwebtoken');
+const logger = require('./logger');
+
+const { UnprocessableEntity } = require('./errors/UnproccessableEntity');
 
 // TODO: Extract the env values
 const { JWT_ACCESS_TOKEN } = process.env;
@@ -7,11 +10,17 @@ const { JWT_ACCESS_TOKEN } = process.env;
 /**
  * @desc To generate the token for accessing our webapp
  *
- *@param object - This is contains user encryption informations. ex. roleId, email.
- *@param exp - Set expiration time if you want.
+ *@param {{id}} config - This is contains user encryption informations. ex. roleId, email.
+ *@param {String} exp - Set expiration time if you want.
  */
-exports.getAccessToken = async (config, exp) =>
-	jwt.sign(config, JWT_ACCESS_TOKEN || '', { expiresIn: exp });
+exports.getAccessToken = async (config, exp) => {
+	try {
+		return jwt.sign(config, JWT_ACCESS_TOKEN || '', { expiresIn: exp });
+	} catch (err) {
+		logger.error(err);
+		throw new UnprocessableEntity('Access token not generated!');
+	}
+};
 
 /**
  *

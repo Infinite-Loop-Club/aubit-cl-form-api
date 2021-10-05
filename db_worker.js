@@ -8,7 +8,7 @@ const { SqlError } = require('./errors/SqlError');
  *
  * @param {mysql.Connection} connection Mysql connection object to make the query against database
  * @param {{table_name, data}} query Needs to pass an object with proper informations
- * @returns {{Array<rows>, Record<string, fields>}} Results after the query execution
+ * @returns {Promise<{rows:Array<rows>, fields: Record<string, string>}>} Results after the query execution
  */
 exports.insertOne = async (connection, query) => {
 	try {
@@ -32,7 +32,7 @@ exports.insertOne = async (connection, query) => {
  *
  * @param {mysql.Connection} connection Mysql connection object to make the query against database
  * @param {{table_name, projection, table_name, condition, value}} query Needs to pass an object with proper informations
- * @returns {{Array<rows>, Record<string, fields>}} Results after the query execution
+ * @returns {Promise<{rows:Array<rows>, fields: Record<string, string>}>} Results after the query execution
  */
 exports.get = async (connection, { projection, table_name, condition, value }) => {
 	try {
@@ -59,7 +59,7 @@ exports.get = async (connection, { projection, table_name, condition, value }) =
  *
  * @param {mysql.Connection} connection Mysql connection object to make the query against database
  * @param {{table_name, updating_fields, updating_values, table_name, condition, value, key}} query Needs to pass an object with proper informations
- * @returns {{Array<rows>, Record<string, fields>}} Results after the query execution
+ * @returns {Promise<{rows:Array<rows>, fields: Record<string, string>}>} Results after the query execution
  */
 exports.updateOne = async (
 	connection,
@@ -67,10 +67,10 @@ exports.updateOne = async (
 ) => {
 	try {
 		// ? Query preparation
-		const sql = await mysql.format(`UPDATE ${table_name} SET ${updating_fields} WHERE ${key} = ?`, [
-			...updating_values,
-			value
-		]);
+		const sql = await mysql.format(
+			`UPDATE ${table_name} SET ${updating_fields} WHERE ${key} = ?`,
+			updating_values.concat(value)
+		);
 
 		// ? Query execution
 		const [rows, fields] = await connection.execute(sql);
@@ -80,7 +80,7 @@ exports.updateOne = async (
 			fields
 		};
 	} catch (err) {
-		logger.error('get query => ', err);
+		logger.error('UPDATE query => ', err);
 		throw new SqlError(MESSAGES.SQL_ERROR);
 	}
 };

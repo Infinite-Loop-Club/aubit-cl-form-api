@@ -8,7 +8,7 @@ USE cl_database;
 CREATE TABLE staffs (
   id int NOT NULL AUTO_INCREMENT,
   email varchar(128),
-  password varchar(256),
+  code varchar(16),
   name varchar(128),
   department varchar(128),
   staff_id_number int,
@@ -18,20 +18,6 @@ CREATE TABLE staffs (
   created_at timestamp default now(),
 
   PRIMARY KEY (id) 
-) 
-ENGINE = InnoDB;
-
--- Verification Table creation 
-CREATE TABLE verification (
-  id int NOT NULL AUTO_INCREMENT,
-  staff_id int,
-  code varchar(16),
-  updated_at timestamp default null,
-  created_at timestamp default now(),
-  count int default 0,
-
-  PRIMARY KEY (id),
-  FOREIGN KEY (staff_id) REFERENCES staffs(id)
 ) 
 ENGINE = InnoDB;
 

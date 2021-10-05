@@ -8,6 +8,7 @@ const { Unauthorized } = require('./errors/Unauthorized');
 const { sendEmail } = require('./mailer');
 const { EMAIL_TEMPLATES } = require('./constant');
 const { generateVerificationCode } = require('./business');
+const { getAccessToken } = require('./auth');
 
 /**
  * @readonly /api/apply-cl
@@ -59,7 +60,7 @@ const handleStaffLoginRoute = async (req, res) => {
 		const getQuery = await database.get(connection, {
 			table_name: 'staffs',
 			projection: 'id, email',
-			condition: 'email = ?',
+			condition: 'email = ? limit 1',
 			value: [email]
 		});
 
@@ -69,18 +70,28 @@ const handleStaffLoginRoute = async (req, res) => {
 		// ?? Random code generation
 		const code = await generateVerificationCode();
 
-		// ?? Email sending
-		await sendEmail(
-			{ to: email, subject: 'Verification code.' },
-			{
-				templateId: EMAIL_TEMPLATES.VERIFICATION,
-				data: {
-					otp: code
-				}
-			}
-		);
+		logger.info(`Login code => ${code}`);
 
-		return await res.status(200).json({
+		await database.updateOne(connection, {
+			table_name: 'staffs',
+			updating_fields: 'code = ?',
+			updating_values: [code],
+			key: 'id',
+			value: [getQuery.rows[0].id]
+		});
+
+		// ?? Email sending
+		// await sendEmail(
+		// 	{ to: email, subject: 'Verification code.' },
+		// 	{
+		// 		templateId: EMAIL_TEMPLATES.VERIFICATION,
+		// 		data: {
+		// 			otp: code
+		// 		}
+		// 	}
+		// );
+
+		return res.status(200).json({
 			result: true,
 			message: 'Email sent if not please contact administrator.',
 			data: {
@@ -100,6 +111,41 @@ const handleStaffLoginRoute = async (req, res) => {
  */
 const handleStaffVerifyRoute = async (req, res) => {
 	try {
+		const connection = await db_connector();
+
+		const { email, code } = req.body;
+
+		// ! Basic validations
+		if (!email || !code) throw new BadRequest('Email or code is missing!');
+
+		const getQuery = await database.get(connection, {
+			table_name: 'staffs',
+			projection: 'id, email',
+			condition: 'email = ? and code = ? limit 1',
+			value: [email, code]
+		});
+
+		// ! Email check
+		if (!getQuery.rows.length) throw new Unauthorized('Invalid code!');
+
+		// ? Generte access token
+		const token = await getAccessToken(
+			{
+				id: getQuery.rows[0].id,
+				email: getQuery.rows[0].email
+			},
+			'30d'
+		);
+
+		return res.status(200).json({
+			result: true,
+			message: 'Logged in successfully.',
+			data: {
+				id: getQuery.rows[0].id,
+				email: getQuery.rows[0].email,
+				token
+			}
+		});
 	} catch (err) {
 		errorHandleManager(err, res);
 	}
