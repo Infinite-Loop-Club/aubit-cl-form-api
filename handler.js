@@ -23,9 +23,38 @@ const handleCreateClApplication = async (req, res) => {
 
 		const { basic, arrangements, address } = req.body;
 
+		const insertAddressQuery = await database.insertOne(connection, {
+			table_name: 'staff_addresses',
+			data: { ...address, staff_id: req.user.id }
+		});
+
+		console.log({
+			...basic,
+			staff_id: req.user.id,
+			staff_address_id: insertAddressQuery.rows.insertId,
+			period_from: moment(new Date(basic.period_from)),
+			period_to: moment(new Date(basic.period_to))
+		});
+
 		const insertClQuery = await database.insertOne(connection, {
 			table_name: 'cl_informations',
-			data: basic
+			data: {
+				...basic,
+				staff_id: req.user.id,
+				staff_address_id: insertAddressQuery.rows.insertId,
+				period_from: moment(new Date(basic.period_from)),
+				period_to: moment(new Date(basic.period_to))
+			}
+		});
+
+		console.log(insertClQuery.rows);
+
+		const insertArrangementsQuery = await database.insertMultiple(connection, {
+			table_name: 'cl_informations',
+			data: arrangements.map(a => {
+				a['cl_id'] = req.user.id;
+				return a;
+			})
 		});
 
 		return res.status(200).json({
@@ -33,6 +62,7 @@ const handleCreateClApplication = async (req, res) => {
 			message: 'test'
 		});
 	} catch (err) {
+		logger.error(err);
 		errorHandleManager(err, res);
 	}
 };

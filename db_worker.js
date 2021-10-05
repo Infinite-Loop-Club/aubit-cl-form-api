@@ -8,7 +8,7 @@ const { SqlError } = require('./errors/SqlError');
  *
  * @param {mysql.Connection} connection Mysql connection object to make the query against database
  * @param {{table_name, data}} query Needs to pass an object with proper informations
- * @returns {Promise<{{insertId, affectedRows}, fields: Record<string, string>}>} Results after the query execution
+ * @returns {Promise<{rows: Record<string, string>, fields: Record<string, string>}>} Results after the query execution
  */
 exports.insertOne = async (connection, query) => {
 	try {
@@ -32,7 +32,7 @@ exports.insertOne = async (connection, query) => {
  *
  * @param {mysql.Connection} connection Mysql connection object to make the query against database
  * @param {{table_name, data}} query Needs to pass an object with proper informations
- * @returns {Promise<{{insertId, affectedRows}, fields: Record<string, string>}>} Results after the query execution
+ * @returns {Promise<{rows: Record<string, string>, fields: Record<string, string>}>} Results after the query execution
  */
 exports.insertMultiple = async (connection, query) => {
 	try {
