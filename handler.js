@@ -10,6 +10,8 @@ const { EMAIL_TEMPLATES } = require('./constant');
 const { generateVerificationCode } = require('./business');
 const { getAccessToken } = require('./auth');
 
+const validateOtpRequest = require('./validations/otpRequest');
+
 /**
  * @readonly /api/apply-cl
  * @param {Express.Request} req Request object of express framework
@@ -79,8 +81,11 @@ const handleStaffLoginRoute = async (req, res) => {
 
 		const { email } = req.body;
 
-		// ! Basic validations
-		if (!email) throw new BadRequest('Email missing!');
+		try {
+			await validateOtpRequest(req.body);
+		} catch (exp) {
+			throw new BadRequest('Invalid request body');
+		}
 
 		const getQuery = await database.get(connection, {
 			table_name: 'staffs',
