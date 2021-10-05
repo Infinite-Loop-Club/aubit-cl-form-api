@@ -21,6 +21,20 @@ CREATE TABLE staffs (
 ) 
 ENGINE = InnoDB;
 
+-- Verification Table creation 
+CREATE TABLE verification (
+  id int NOT NULL AUTO_INCREMENT,
+  staff_id int,
+  code varchar(16),
+  updated_at timestamp default null,
+  created_at timestamp default now(),
+  count int default 0,
+
+  PRIMARY KEY (id),
+  FOREIGN KEY (staff_id) REFERENCES staffs(id)
+) 
+ENGINE = InnoDB;
+
 -- Staff addresses Table creation 
 CREATE TABLE staff_addresses (
   id int NOT NULL AUTO_INCREMENT,

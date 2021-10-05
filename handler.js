@@ -36,4 +36,30 @@ const handleCreateClApplication = async (req, res) => {
 	}
 };
 
-module.exports = { handleCreateClApplication };
+/**
+ * @readonly /api/login
+ * @param {Express.Request} req Request object of exresss framework
+ * @param {Express.Response} res Response object of express framework
+ * @returns {json} Response of the request
+ */
+const handleStaffLoginRoute = async (req, res) => {
+	try {
+	} catch (err) {
+		errorHandleManager(err, res);
+	}
+};
+
+/**
+ * @readonly /api/login
+ * @param {Express.Request} req Request object of exresss framework
+ * @param {Express.Response} res Response object of express framework
+ * @returns {json} Response of the request
+ */
+const handleStaffVerifyRoute = async (req, res) => {
+	try {
+	} catch (err) {
+		errorHandleManager(err, res);
+	}
+};
+
+module.exports = { handleCreateClApplication, handleStaffLoginRoute, handleStaffVerifyRoute };

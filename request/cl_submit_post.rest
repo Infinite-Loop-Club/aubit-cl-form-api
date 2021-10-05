@@ -1,5 +1,24 @@
 ### Sending reqeust with rest client extenstion with vscode
+
+### Otp sending route
+POST http://localhost:4000/api/login 
+Content-Type: application/json
+
+{
+    "email": ""
+}
+
+### Otp verification route
+POST http://localhost:4000/api/verify
+Content-Type: application/json
+
+{
+    "otp": "2342"
+}
+
+### Form apply route
 POST http://localhost:4000/api/apply-cl 
+Authorization: Bearer 
 Content-Type: application/json
 
 {
