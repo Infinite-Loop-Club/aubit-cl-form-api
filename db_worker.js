@@ -27,3 +27,30 @@ exports.insertOne = async (connection, query) => {
 		throw new SqlError(MESSAGES.SQL_ERROR);
 	}
 };
+
+/**
+ *
+ * @param {mysql.Connection} connection Mysql connection object to make the query against database
+ * @param {{table_name, projection, table_name, condition, value}} query Needs to pass an object with proper informations
+ * @returns {{rows, fields}} Results after the query execution
+ */
+exports.get = async (connection, { projection, table_name, condition, value }) => {
+	try {
+		// ? Query preparation
+		const sql = await mysql.format(
+			`SELECT ${projection} FROM ${table_name} WHERE ${condition}`,
+			value
+		);
+
+		// ? Query execution
+		const [rows, fields] = await connection.execute(sql);
+
+		return {
+			rows,
+			fields
+		};
+	} catch (err) {
+		logger.error('get query => ', err);
+		throw new SqlError(MESSAGES.SQL_ERROR);
+	}
+};

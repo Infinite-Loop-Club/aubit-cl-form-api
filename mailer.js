@@ -2,7 +2,7 @@ const moment = require('moment');
 const nodemailer = require('nodemailer');
 const logger = require('./logger');
 
-const { UnprocessableEntity } = require('./errors/UnproccessableEntity');
+// const { UnprocessableEntity } = require('./errors/UnproccessableEntity');
 const { getEmailTemplate } = require('./business');
 
 const { AUBIT_FROM_EMAIL, AUBIT_FROM_EMAIL_PASSWORD } = process.env;
@@ -34,9 +34,9 @@ exports.sendEmail = async (config, templateConfiguration) => {
 	transporter.sendMail(emailConfiguration, function (err) {
 		if (err) {
 			logger.error(err);
-			throw new UnprocessableEntity(
-				'Sending email had an issue. Please contact the administrator.'
-			);
+			// throw new UnprocessableEntity(
+			// 	'Sending email had an issue. Please contact the administrator.'
+			// );
 		}
 
 		logger.info(`Email sent at ${moment().format('LLLL')}.`);

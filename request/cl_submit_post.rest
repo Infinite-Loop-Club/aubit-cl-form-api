@@ -5,7 +5,7 @@ POST http://localhost:4000/api/login
 Content-Type: application/json
 
 {
-    "email": ""
+    "email": "jacksparrow.mdjack@gmail.com"
 }
 
 ### Otp verification route
@@ -13,6 +13,7 @@ POST http://localhost:4000/api/verify
 Content-Type: application/json
 
 {
+    "email": "jacksparrow.mdjack@gmail.com",
     "otp": "2342"
 }
 
