@@ -21,16 +21,11 @@ const handleCreateClApplication = async (req, res) => {
 		// ?? Create the connection
 		const connection = await db_connector();
 
-		await database.insertOne(connection, {
-			table_name: 'staffs',
-			data: {
-				email: 'test2@gmail.com',
-				password: 'slfjfsdk',
-				name: 'MD2',
-				department: 'Cse',
-				is_verified: 1,
-				is_active: 1
-			}
+		const { basic, arrangements, address } = req.body;
+
+		const insertClQuery = await database.insertOne(connection, {
+			table_name: 'cl_informations',
+			data: basic
 		});
 
 		return res.status(200).json({

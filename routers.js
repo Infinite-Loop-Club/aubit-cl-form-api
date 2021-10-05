@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+const { authenticator } = require('./auth');
 const {
 	handleCreateClApplication,
 	handleStaffVerifyRoute,
@@ -28,6 +29,6 @@ router.post('/verify', handleStaffVerifyRoute);
  * @requires: -
  * @description : For storing all information to db and send email to admistrative.
  */
-router.post('/apply-cl', handleCreateClApplication);
+router.post('/apply-cl', authenticator, handleCreateClApplication);
 
 module.exports = router;

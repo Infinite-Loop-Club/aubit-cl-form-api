@@ -8,12 +8,48 @@ const { SqlError } = require('./errors/SqlError');
  *
  * @param {mysql.Connection} connection Mysql connection object to make the query against database
  * @param {{table_name, data}} query Needs to pass an object with proper informations
- * @returns {Promise<{rows:Array<rows>, fields: Record<string, string>}>} Results after the query execution
+ * @returns {Promise<{{insertId, affectedRows}, fields: Record<string, string>}>} Results after the query execution
  */
 exports.insertOne = async (connection, query) => {
 	try {
 		// ? Query preparation
 		const sql = await mysql.format(`INSERT INTO ?? SET ?`, [query.table_name, query.data]);
+
+		// ? Query execution
+		const [rows, fields] = await connection.execute(sql);
+
+		return {
+			rows,
+			fields
+		};
+	} catch (err) {
+		logger.error('insertOne query => ', err);
+		throw new SqlError(MESSAGES.SQL_ERROR);
+	}
+};
+
+/**
+ *
+ * @param {mysql.Connection} connection Mysql connection object to make the query against database
+ * @param {{table_name, data}} query Needs to pass an object with proper informations
+ * @returns {Promise<{{insertId, affectedRows}, fields: Record<string, string>}>} Results after the query execution
+ */
+exports.insertMultiple = async (connection, query) => {
+	try {
+		const baseQ = `INSERT INTO ? SET ? ; `;
+
+		let genQ = baseQ.repeat(query.data.length);
+
+		const data = [];
+
+		// ? make our query with data array
+		query.data.forEach(v => {
+			genQ = genQ.replace('INSERT INTO ?', `INSERT INTO ${v.table_name}`);
+			data.push(v.data);
+		});
+
+		// ? Query preparation
+		const sql = await mysql.format(`${genQ}`, query.data);
 
 		// ? Query execution
 		const [rows, fields] = await connection.execute(sql);
