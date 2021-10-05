@@ -1,13 +1,13 @@
 const MESSAGES = {
 	SQL_ERROR: 'Database had an issue. Please contact the administrator.',
 	INTERNAL_SERVER_ERROR:
-		"Sorry for the inconvenience. If it's still persist feel free to contact our web team admistrator."
+		"Sorry for the inconvenience. If it's still persist feel free to contact our web team administrator."
 };
 
 const EMAIL_TEMPLATES = {
 	CONFIRMATION: 'CONFIRMATION',
 	ADMINISTRATIVE: 'ADMINISTRATIVE',
-	VERIFICATION: 'VERIFIVATION'
+	VERIFICATION: 'VERIFICATION'
 };
 
 module.exports = {

@@ -9,7 +9,7 @@ const { MESSAGES } = require('./constant');
 const { DB_NAME, DB_PASSWORD, DB_HOSTNAME, DB_USERNAME, DB_PORT } = process.env;
 
 /**
- * @description to create a new conenction of mysql
+ * To create a new connection of mysql
  * @returns Promise<mysql.Connection>
  */
 const getConnection = async () => {

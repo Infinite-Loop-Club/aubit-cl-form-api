@@ -12,7 +12,7 @@ const { getAccessToken } = require('./auth');
 
 /**
  * @readonly /api/apply-cl
- * @param {Express.Request} req Request object of exresss framework
+ * @param {Express.Request} req Request object of express framework
  * @param {Express.Response} res Response object of express framework
  * @returns {json} Response of the request
  */
@@ -37,7 +37,7 @@ const handleCreateClApplication = async (req, res) => {
 		});
 
 		const insertClQuery = await database.insertOne(connection, {
-			table_name: 'cl_informations',
+			table_name: 'cl_information',
 			data: {
 				...basic,
 				staff_id: req.user.id,
@@ -50,7 +50,7 @@ const handleCreateClApplication = async (req, res) => {
 		console.log(insertClQuery.rows);
 
 		const insertArrangementsQuery = await database.insertMultiple(connection, {
-			table_name: 'cl_informations',
+			table_name: 'cl_information',
 			data: arrangements.map(a => {
 				a['cl_id'] = req.user.id;
 				return a;
@@ -69,7 +69,7 @@ const handleCreateClApplication = async (req, res) => {
 
 /**
  * @readonly /api/login
- * @param {Express.Request} req Request object of exresss framework
+ * @param {Express.Request} req Request object of express framework
  * @param {Express.Response} res Response object of express framework
  * @returns {json} Response of the request
  */
@@ -130,7 +130,7 @@ const handleStaffLoginRoute = async (req, res) => {
 
 /**
  * @readonly /api/login
- * @param {Express.Request} req Request object of exresss framework
+ * @param {Express.Request} req Request object of express framework
  * @param {Express.Response} res Response object of express framework
  * @returns {json} Response of the request
  */
@@ -153,7 +153,7 @@ const handleStaffVerifyRoute = async (req, res) => {
 		// ! Email check
 		if (!getQuery.rows.length) throw new Unauthorized('Invalid code!');
 
-		// ? Generte access token
+		// ? Generate access token
 		const token = await getAccessToken(
 			{
 				id: getQuery.rows[0].id,

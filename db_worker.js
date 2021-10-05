@@ -7,7 +7,7 @@ const { SqlError } = require('./errors/SqlError');
 /**
  *
  * @param {mysql.Connection} connection Mysql connection object to make the query against database
- * @param {{table_name, data}} query Needs to pass an object with proper informations
+ * @param {{table_name, data}} query Needs to pass an object with proper information
  * @returns {Promise<{rows: Record<string, string>, fields: Record<string, string>}>} Results after the query execution
  */
 exports.insertOne = async (connection, query) => {
@@ -31,7 +31,7 @@ exports.insertOne = async (connection, query) => {
 /**
  *
  * @param {mysql.Connection} connection Mysql connection object to make the query against database
- * @param {{table_name, data}} query Needs to pass an object with proper informations
+ * @param {{table_name, data}} query Needs to pass an object with proper information
  * @returns {Promise<{rows: Record<string, string>, fields: Record<string, string>}>} Results after the query execution
  */
 exports.insertMultiple = async (connection, query) => {
@@ -67,7 +67,7 @@ exports.insertMultiple = async (connection, query) => {
 /**
  *
  * @param {mysql.Connection} connection Mysql connection object to make the query against database
- * @param {{table_name, projection, table_name, condition, value}} query Needs to pass an object with proper informations
+ * @param {{table_name, projection, table_name, condition, value}} query Needs to pass an object with proper information
  * @returns {Promise<{rows:Array<rows>, fields: Record<string, string>}>} Results after the query execution
  */
 exports.get = async (connection, { projection, table_name, condition, value }) => {
@@ -94,7 +94,7 @@ exports.get = async (connection, { projection, table_name, condition, value }) =
 /**
  *
  * @param {mysql.Connection} connection Mysql connection object to make the query against database
- * @param {{table_name, updating_fields, updating_values, table_name, condition, value, key}} query Needs to pass an object with proper informations
+ * @param {{table_name, updating_fields, updating_values, table_name, condition, value, key}} query Needs to pass an object with proper information
  * @returns {Promise<{rows:Array<rows>, fields: Record<string, string>}>} Results after the query execution
  */
 exports.updateOne = async (
