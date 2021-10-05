@@ -31,6 +31,15 @@ const getEmailTemplate = async ({ templateId, data }) => {
 			break;
 		}
 
+		case EMAIL_TEMPLATES.VERIFICATION: {
+			contents = await fs.readFileSync(
+				path.join(ROOT_PATH, 'views', 'verificationCode.ejs'),
+				'utf8'
+			);
+
+			break;
+		}
+
 		default:
 	}
 
