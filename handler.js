@@ -25,6 +25,7 @@ const handleCreateClApplication = async (req, res) => {
 
 		const { basic, arrangements, address } = req.body;
 
+		// todo: validate
 		const insertAddressQuery = await database.insertOne(connection, {
 			table_name: 'staff_addresses',
 			data: { ...address, staff_id: req.user.id }
@@ -37,6 +38,8 @@ const handleCreateClApplication = async (req, res) => {
 			period_from: moment(new Date(basic.period_from)),
 			period_to: moment(new Date(basic.period_to))
 		});
+
+		// todo: add validation {atleast 1 arrangement}
 
 		const insertClQuery = await database.insertOne(connection, {
 			table_name: 'cl_information',
@@ -51,12 +54,14 @@ const handleCreateClApplication = async (req, res) => {
 
 		console.log(insertClQuery.rows);
 
-		const insertArrangementsQuery = await database.insertMultiple(connection, {
-			table_name: 'cl_information',
-			data: arrangements.map(a => {
-				a['cl_id'] = req.user.id;
-				return a;
-			})
+		const insertArrangementsQuery = await arrangements.forEach(async arrangement => {
+			await database.insertOne(connection, {
+				table_name: 'arrangments',
+				data: {
+					...arrangement,
+					cl_id: insertClQuery.rows.insertId
+				}
+			});
 		});
 
 		return res.status(200).json({
