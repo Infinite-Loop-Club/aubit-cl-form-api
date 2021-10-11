@@ -41,8 +41,8 @@ const handleCreateClApplication = async (req, res) => {
 			...basic,
 			staff_id: req.user.id,
 			staff_address_id: insertAddressQuery.rows.insertId,
-			period_from: moment(new Date(basic.period_from)),
-			period_to: moment(new Date(basic.period_to))
+			period_from: moment(new Date(basic.period_from)).format('YYYY-MM-DD HH:mm:ss'),
+			period_to: moment(new Date(basic.period_to)).format('YYYY-MM-DD HH:mm:ss')
 		});
 
 		// todo: add validation {atleast 1 arrangement}
@@ -52,8 +52,8 @@ const handleCreateClApplication = async (req, res) => {
 				...basic,
 				staff_id: req.user.id,
 				staff_address_id: insertAddressQuery.rows.insertId,
-				period_from: moment(new Date(basic.period_from)),
-				period_to: moment(new Date(basic.period_to))
+				period_from: moment(new Date(basic.period_from)).format('YYYY-MM-DD HH:mm:ss'),
+				period_to: moment(new Date(basic.period_to)).format('YYYY-MM-DD HH:mm:ss')
 			}
 		});
 
@@ -62,7 +62,8 @@ const handleCreateClApplication = async (req, res) => {
 				table_name: 'arrangments',
 				data: {
 					...arrangement,
-					cl_id: insertClQuery.rows.insertId
+					cl_id: insertClQuery.rows.insertId,
+					date_hour: moment(new Date(arrangement.date_hour)).format('YYYY-MM-DD HH:mm:ss')
 				}
 			});
 		});
@@ -116,15 +117,15 @@ const handleStaffLoginRoute = async (req, res) => {
 		});
 
 		// ?? Email sending
-		// await sendEmail(
-		// 	{ to: email, subject: 'Verification code.' },
-		// 	{
-		// 		templateId: EMAIL_TEMPLATES.VERIFICATION,
-		// 		data: {
-		// 			otp: code
-		// 		}
-		// 	}
-		// );
+		await sendEmail(
+			{ to: email, subject: 'Verification code.' },
+			{
+				templateId: EMAIL_TEMPLATES.VERIFICATION,
+				data: {
+					otp: code
+				}
+			}
+		);
 
 		return res.status(200).json({
 			result: true,

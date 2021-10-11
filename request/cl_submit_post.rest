@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
     "email": "jacksparrow.mdjack@gmail.com",
-    "code": "16228"
+    "code": "14880"
 }
 
 ### Form apply route

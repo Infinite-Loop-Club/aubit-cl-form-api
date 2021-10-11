@@ -31,7 +31,7 @@ exports.sendEmail = async (config, templateConfiguration) => {
 	});
 
 	transporter.sendMail(emailConfiguration, function (err) {
-		if (err) logger.error(err);
+		if (err) return logger.error(err);
 
 		logger.info(`Email sent at ${moment().format('LLLL')}.`);
 	});
