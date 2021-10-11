@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const db_connector = require('./connection');
 const errorHandleManager = require('./errors');
 const logger = require('./logger');
@@ -11,6 +13,7 @@ const { getAccessToken } = require('./auth');
 
 const validateOtpRequest = require('./validations/otpRequest');
 const validateOtpVerificationRequest = require('./validations/otpVerification');
+const validateApplicationRequest = require('./validations/applicationRequest');
 
 /**
  * @readonly /api/apply-cl
@@ -20,10 +23,13 @@ const validateOtpVerificationRequest = require('./validations/otpVerification');
  */
 const handleCreateClApplication = async (req, res) => {
 	try {
-		// ?? Create the connection
-		const connection = await db_connector();
+		// ! Validations
+		await validateApplicationRequest(req.body);
 
 		const { basic, arrangements, address } = req.body;
+
+		// ?? Create the connection
+		const connection = await db_connector();
 
 		// todo: validate
 		const insertAddressQuery = await database.insertOne(connection, {
