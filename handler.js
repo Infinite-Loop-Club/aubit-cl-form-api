@@ -3,7 +3,6 @@ const errorHandleManager = require('./errors');
 const logger = require('./logger');
 
 const database = require('./db_worker');
-const { BadRequest } = require('./errors/BadRequest');
 const { Unauthorized } = require('./errors/Unauthorized');
 const { sendEmail } = require('./mailer');
 const { EMAIL_TEMPLATES } = require('./constant');
@@ -11,6 +10,7 @@ const { generateVerificationCode } = require('./business');
 const { getAccessToken } = require('./auth');
 
 const validateOtpRequest = require('./validations/otpRequest');
+const validateOtpVerificationRequest = require('./validations/otpVerification');
 
 /**
  * @readonly /api/apply-cl
@@ -40,9 +40,8 @@ const handleCreateClApplication = async (req, res) => {
 		});
 
 		// todo: add validation {atleast 1 arrangement}
-
 		const insertClQuery = await database.insertOne(connection, {
-			table_name: 'cl_information',
+			table_name: 'cl_informations',
 			data: {
 				...basic,
 				staff_id: req.user.id,
@@ -52,9 +51,7 @@ const handleCreateClApplication = async (req, res) => {
 			}
 		});
 
-		console.log(insertClQuery.rows);
-
-		const insertArrangementsQuery = await arrangements.forEach(async arrangement => {
+		await arrangements.forEach(async arrangement => {
 			await database.insertOne(connection, {
 				table_name: 'arrangments',
 				data: {
@@ -82,15 +79,12 @@ const handleCreateClApplication = async (req, res) => {
  */
 const handleStaffLoginRoute = async (req, res) => {
 	try {
-		const connection = await db_connector();
+		// ! Validations
+		await validateOtpRequest(req.body);
 
 		const { email } = req.body;
 
-		try {
-			await validateOtpRequest(req.body);
-		} catch (exp) {
-			throw new BadRequest('Invalid request body');
-		}
+		const connection = await db_connector();
 
 		const getQuery = await database.get(connection, {
 			table_name: 'staffs',
@@ -146,13 +140,13 @@ const handleStaffLoginRoute = async (req, res) => {
  */
 const handleStaffVerifyRoute = async (req, res) => {
 	try {
-		const connection = await db_connector();
+		// ! Validations
+		await validateOtpVerificationRequest(req.body);
 
 		const { email, code } = req.body;
 
-		// ! Basic validations
-		if (!email || !code) throw new BadRequest('Email or code is missing!');
-
+		const connection = await db_connector();
+		// // ! Basic validations
 		const getQuery = await database.get(connection, {
 			table_name: 'staffs',
 			projection: 'id, email',

@@ -1,5 +1,6 @@
 const { StatusCodes, getReasonPhrase } = require('http-status-codes');
 const { MESSAGES } = require('../constant');
+const logger = require('../logger');
 const { BadRequest } = require('./BadRequest');
 const { Forbidden } = require('./Forbidden');
 const { NotFound } = require('./NotFound');
@@ -50,6 +51,9 @@ const errorHandleManager = (err, res) => {
 		message = err.message;
 		statusCode = StatusCodes.UNPROCESSABLE_ENTITY;
 	}
+
+	// ? print only for internel server error
+	if (statusCode === 500) logger.error('500 => ', err);
 
 	// ! 500
 	return res.status(statusCode).json({
