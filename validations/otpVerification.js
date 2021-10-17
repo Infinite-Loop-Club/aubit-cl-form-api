@@ -15,7 +15,7 @@ const optVerificationValidator = async body => {
 				.max(100)
 				.email({ tlds: { allow: false } })
 				.required(),
-			code: Joi.number().min(10000).max(99999).required()
+			code: Joi.number().min(100000).max(999999).required()
 		});
 
 		await validatorSchema.validateAsync(body);

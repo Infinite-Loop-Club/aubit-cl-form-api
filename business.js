@@ -50,7 +50,7 @@ const getEmailTemplate = async ({ templateId, data }) => {
 /**
  * @description Generate some random otp between 0 - 100000
  */
-const generateVerificationCode = async () => Math.floor(Math.random() * 10000 + 10000);
+const generateVerificationCode = async () => Math.floor(Math.random() * 100000 + 100000);
 
 module.exports = {
 	getEmailTemplate,

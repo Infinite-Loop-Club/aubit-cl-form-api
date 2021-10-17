@@ -23,7 +23,7 @@ exports.sendEmail = async (config, templateConfiguration) => {
 	 * and enable Less secure app block on gmail settings.
 	 */
 	const transporter = nodemailer.createTransport({
-		service: 'Gmail',
+		service: 'gmail',
 		auth: {
 			user: AUBIT_FROM_EMAIL,
 			pass: AUBIT_FROM_EMAIL_PASSWORD
