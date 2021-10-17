@@ -49,7 +49,7 @@ CREATE TABLE cl_informations (
   name varchar(64),
   designation varchar(128),
   nature_of_leave tinyint default 0,
-  availed_days tinyint default 1,
+  availed_days int default 0,
   period_from timestamp default null,
   period_to timestamp default null,
   no_of_days int default 1,
