@@ -4,7 +4,8 @@ const { authenticator } = require('./auth');
 const {
 	handleCreateClApplication,
 	handleStaffVerifyRoute,
-	handleStaffLoginRoute
+	handleStaffLoginRoute,
+	handleCheckAuth
 } = require('./handler');
 
 /**
@@ -30,5 +31,13 @@ router.post('/verify', handleStaffVerifyRoute);
  * @description : For storing all information to db and send email to admistrative.
  */
 router.post('/apply-cl', authenticator, handleCreateClApplication);
+
+/**
+ * @type : GET
+ * @access : PRIVATE
+ * @requires: -
+ * @description : To check validation for jwt token.
+ */
+router.get('/auth', authenticator, handleCheckAuth);
 
 module.exports = router;

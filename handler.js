@@ -187,4 +187,22 @@ const handleStaffVerifyRoute = async (req, res) => {
 	}
 };
 
-module.exports = { handleCreateClApplication, handleStaffLoginRoute, handleStaffVerifyRoute };
+/**
+ * @readonly /api/auth
+ * @param {Express.Request} req Request object of express framework
+ * @param {Express.Response} res Response object of express framework
+ * @returns {json} Response of the request
+ */
+const handleCheckAuth = async (req, res) => {
+	return res.status(200).json({
+		result: true,
+		message: 'Authentication successfully.'
+	});
+};
+
+module.exports = {
+	handleCreateClApplication,
+	handleStaffLoginRoute,
+	handleStaffVerifyRoute,
+	handleCheckAuth
+};
