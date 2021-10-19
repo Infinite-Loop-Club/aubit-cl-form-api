@@ -26,7 +26,7 @@ const handleCreateClApplication = async (req, res) => {
 		// ! Validations
 		await validateApplicationRequest(req.body);
 
-		const { basic, arrangements, address } = req.body;
+		const { basic, arrangements, address, dates } = req.body;
 
 		// ?? Create the connection
 		const connection = await db_connector();
@@ -40,9 +40,7 @@ const handleCreateClApplication = async (req, res) => {
 		console.log({
 			...basic,
 			staff_id: req.user.id,
-			staff_address_id: insertAddressQuery.rows.insertId,
-			period_from: moment(new Date(basic.period_from)).format('YYYY-MM-DD HH:mm:ss'),
-			period_to: moment(new Date(basic.period_to)).format('YYYY-MM-DD HH:mm:ss')
+			staff_address_id: insertAddressQuery.rows.insertId
 		});
 
 		// todo: add validation {atleast 1 arrangement}
@@ -51,15 +49,13 @@ const handleCreateClApplication = async (req, res) => {
 			data: {
 				...basic,
 				staff_id: req.user.id,
-				staff_address_id: insertAddressQuery.rows.insertId,
-				period_from: moment(new Date(basic.period_from)).format('YYYY-MM-DD HH:mm:ss'),
-				period_to: moment(new Date(basic.period_to)).format('YYYY-MM-DD HH:mm:ss')
+				staff_address_id: insertAddressQuery.rows.insertId
 			}
 		});
 
 		await arrangements.forEach(async arrangement => {
 			await database.insertOne(connection, {
-				table_name: 'arrangments',
+				table_name: 'arrangements',
 				data: {
 					...arrangement,
 					cl_id: insertClQuery.rows.insertId,
@@ -68,9 +64,19 @@ const handleCreateClApplication = async (req, res) => {
 			});
 		});
 
+		await dates.forEach(async date => {
+			await database.insertOne(connection, {
+				table_name: 'dates',
+				data: {
+					cl_id: insertClQuery.rows.insertId,
+					date: moment(new Date(date)).format('YYYY-MM-DD')
+				}
+			});
+		});
+
 		return res.status(200).json({
 			result: true,
-			message: 'test'
+			message: 'CL has been create successfully !'
 		});
 	} catch (err) {
 		logger.error(err);

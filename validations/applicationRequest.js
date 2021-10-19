@@ -20,15 +20,12 @@ const applicationRequest = async body => {
 					})
 				)
 				.min(1)
-				.max(10)
 				.required(),
 			basic: Joi.object().keys({
 				name: Joi.string().required(),
 				designation: Joi.string().required(),
 				nature_of_leave: Joi.number(),
 				availed_days: Joi.number().min(1).max(1000),
-				period_from: Joi.date().required(),
-				period_to: Joi.date().required(),
 				no_of_days: Joi.number().min(1).max(31).required(),
 				phone_number: Joi.string().min(8).max(10).required(),
 				country_code: Joi.string().min(2).max(2).required(),
@@ -41,9 +38,12 @@ const applicationRequest = async body => {
 				line2: Joi.string(),
 				city: Joi.string().required(),
 				state: Joi.string().required(),
-				postal_code: Joi.string().max(6).required(),
+				postal_code: Joi.string()
+					.test('len', 'Invalid code!', val => val.length === 6)
+					.required(),
 				country: Joi.string().required()
-			})
+			}),
+			dates: Joi.array().items(Joi.date().required()).min(1).required()
 		});
 
 		await validatorSchema.validateAsync(body);

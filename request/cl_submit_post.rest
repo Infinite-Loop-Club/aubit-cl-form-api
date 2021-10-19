@@ -14,12 +14,12 @@ Content-Type: application/json
 
 {
     "email": "jacksparrow.mdjack@gmail.com",
-    "code": "14880"
+    "code": "148805"
 }
 
 ### Form apply route
 POST http://localhost:4000/api/apply-cl
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJqYWNrc3BhcnJvdy5tZGphY2tAZ21haWwuY29tIiwiaWF0IjoxNjMzNDE5MDE5LCJleHAiOjE2MzYwMTEwMTl9.Bm40A3L6TgPM8BGcd_NTjmRKN_NgDP7lb7w8h_mE1MU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJzYW50aG9zaHZlbHJAZ21haWwuY29tIiwiaWF0IjoxNjM0NjM4OTM3LCJleHAiOjE2MzcyMzA5Mzd9.ajV0g8_le9aX_3a-Up4p1J0qo61M0hHx0OwBbEfPLYE
 Content-Type: application/json
 
 {
@@ -36,9 +36,7 @@ Content-Type: application/json
         "designation": "Tutor",
         "nature_of_leave": 1,
         "availed_days": "3",
-        "period_from": "01-12-2000",
-        "period_to": "05-12-2000",
-        "no_of_days": 4,
+        "no_of_days": 2,
         "phone_number": "9524369244",
         "country_code": "91",
         "department_name": "cse",
@@ -52,5 +50,11 @@ Content-Type: application/json
         "state": "Tamilnadu",
         "postal_code": "621216",
         "country": "India"
-    }
+    },
+    "dates": ["01-12-2000","02-12-2000"]
 }
+
+### Auth verification route
+GET http://localhost:4000/api/auth
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzYW50aG9zaHZlbHJAZ21haWwuY29tIiwiaWF0IjoxNjM0NDUyNjE3LCJleHAiOjE2MzcwNDQ2MTd9.Vwc7NEPYXulAnxn_LchAAhpHzHzgPdypZ96G4Sj9wFo
+Content-Type: application/json
