@@ -16,10 +16,9 @@ const applicationRequest = async body => {
 						date_hour: Joi.date().required(),
 						class: Joi.string().required(),
 						subject: Joi.string().required(),
-						year: Joi.string().required()
+						year: Joi.number().required()
 					})
 				)
-				.min(1)
 				.required(),
 			basic: Joi.object().keys({
 				name: Joi.string().required(),
@@ -38,12 +37,12 @@ const applicationRequest = async body => {
 				line2: Joi.string(),
 				city: Joi.string().required(),
 				state: Joi.string().required(),
-				postal_code: Joi.string()
-					.test('len', 'Invalid code!', val => val.length === 6)
-					.required(),
+				postal_code: Joi.number()
+					.min(600000, 'Invalid postal_code')
+					.max(699999, 'Invalid postal_code'),
 				country: Joi.string().required()
 			}),
-			dates: Joi.array().items(Joi.date().required()).min(1).required()
+			dates: Joi.array().items(Joi.date()).min(1).required()
 		});
 
 		await validatorSchema.validateAsync(body);
